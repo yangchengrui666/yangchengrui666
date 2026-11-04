@@ -1,0 +1,44 @@
+# ===== 1. 建目录、拷文件、改名 =====
+$proj = "$env:USERPROFILE\Desktop\EG4S20_Project"
+New-Item -ItemType Directory -Force -Path $proj | Out-Null
+Set-Location $proj
+New-Item -ItemType Directory -Force -Path videos, docs | Out-Null
+Copy-Item "C:\Users\ASUS\Desktop\04_源码包_EG4S20_20261104.rar" "source-code.rar" -Force
+Copy-Item "C:\Users\ASUS\Desktop\演示视频.mp4" "videos\demo.mp4" -Force
+Copy-Item "C:\Users\ASUS\Desktop\技术文档.pdf" "docs\design-doc.pdf" -Force
+
+# ===== 2. 生成 README =====
+@"
+# 基于安路 EG4S20 的多媒体信息发布终端
+
+## 项目简介
+面向应急信息发布与公共交通信息显示场景，基于安路 EG4S20BG256，
+无外部处理器的纯 FPGA 架构，实现上电即显、时序确定的多媒体信息发布终端。
+
+## 功能
+- TF 卡 FAT32 扫描 + BMP 解析
+- SDRAM 双缓冲帧缓存，切图不中断
+- HDMI 1.4b 视频时序 + TMDS 编码 + 立体声音频
+- 按键手动切图 / 自动轮播
+- 五项扩展：字幕叠加、转场特效、自适应缩放、OSD 参数调节、音频可视化
+
+## 源码
+- [源码包（RAR）](source-code.rar)
+
+## 技术文档
+- [设计文档（PDF）](docs/design-doc.pdf)
+
+## 演示视频
+- [观看演示视频](videos/demo.mp4)
+
+## 平台
+安路 HX4S20C / EG4S20BG256 · 纯 FPGA 逻辑
+"@ | Out-File -FilePath "README.md" -Encoding utf8
+
+# ===== 3. 上传 =====
+git init
+git add .
+git commit -m "初始化：源码包、技术文档、演示视频"
+git branch -M main
+git remote add origin https://github.com/yangchengrui666/yangchengrui666.git
+git push -u origin main
